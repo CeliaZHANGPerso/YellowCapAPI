@@ -1,31 +1,60 @@
 import pickle
-from yellowcab.src.utils import transform_input 
+import pandas as pd
+from yellowcab.src.utils import transform_input_post, transform_input_get 
 
-def predict_duration(input, path_model="yellowcab/model/forest_model.pkl") -> int:
+def predict_duration_post(input, path_model="yellowcab/model/forest_model.pkl") -> int:
     model = pickle.load(open(path_model, 'rb'))
-    transformed_input = transform_input(input)
+    dv = pickle.load(open("yellowcab/model/forest_dv.pkl", 'rb'))
+    transformed_input = transform_input_post(input, dv)
     prediction = model.predict(transformed_input)
     return prediction
 
-from yellowcab.src.utils import ModelPredictIn
+def predict_duration_get(
+        VendorID: int,
+        passenger_count: int,
+        trip_distance: float,
+        RatecodeID: int,
+        store_and_fwd_flag: str,
+        PULocationID: int,
+        DOLocationID:int,
+        payment_type: int,
+        fare_amount: float,
+        extra: float,
+        mta_tax: float,
+        tip_amount: float,
+        tolls_amount: float,
+        improvement_surcharge: float,
+        total_amount: float,
+        congestion_surcharge: float,
+        airport_fee: float,
+        path_model="yellowcab/model/forest_model.pkl") -> int:
+    input_dict = {
+        "VendorID": [VendorID],
+        "passenger_count": [passenger_count],
+        "trip_distance": [trip_distance],
+        "RatecodeID": [RatecodeID],
+        "store_and_fwd_flag": [store_and_fwd_flag],
+        "PULocationID": [PULocationID],
+        "DOLocationID": [DOLocationID],
+        "payment_type": [payment_type],
+        "fare_amount": [fare_amount],
+        "extra": [extra],
+        "mta_tax": [mta_tax],
+        "tip_amount": [tip_amount],
+        "tolls_amount": [tolls_amount],
+        "improvement_surcharge": [improvement_surcharge],
+        "total_amount": [total_amount],
+        "congestion_surcharge": [congestion_surcharge],
+        "airport_fee": [airport_fee]
+    }
+    print(input_dict)
 
-inputs = ModelPredictIn(
-    passenger_count=1,
-    trip_distance=2.1,
-    RatecodeID=1,
-    store_and_fwd_flag="N",
-    PULocationID=142,
-    DOLocationID=43,
-    payment_type=2,
-    fare_amount=10.0,
-    extra=3,
-    mta_tax=0.5,
-    tip_amount=0.0,
-    tolls_amount=0.0,
-    improvement_surcharge=0.3,
-    total_amount=11.3,
-    congestion_surcharge=2.5,
-    airport_fee=0.0
-)
+    input_df = pd.DataFrame.from_dict(input)
+    print(input_df)
+    model = pickle.load(open(path_model, 'rb'))
+    dv = pickle.load(open("yellowcab/model/forest_dv.pkl", 'rb'))
+    transformed_input = transform_input_get(input_df, dv)
+    prediction = model.predict(transformed_input)
+    return prediction
 
-print(inputs.extra)
+ 
