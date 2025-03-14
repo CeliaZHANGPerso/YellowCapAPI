@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/181212690554086887/cb1a5a54bcad4101924f1fa758b90027/artifacts
+end_time: 1741947897323
+entry_point_name: ''
+experiment_id: '181212690554086887'
+lifecycle_stage: active
+run_id: cb1a5a54bcad4101924f1fa758b90027
+run_name: masked-doe-204
+run_uuid: cb1a5a54bcad4101924f1fa758b90027
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1741947893505
+status: 3
+tags: []
+user_id: barilanne076
