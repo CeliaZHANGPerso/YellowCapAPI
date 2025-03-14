@@ -7,7 +7,7 @@ def predict_duration_post(input, path_model="yellowcab/model/forest_model.pkl") 
     dv = pickle.load(open("yellowcab/model/forest_dv.pkl", 'rb'))
     transformed_input = transform_input_post(input, dv)
     prediction = model.predict(transformed_input)
-    return prediction
+    return float(prediction[0])
 
 def predict_duration_get(
         VendorID: int,
@@ -47,14 +47,12 @@ def predict_duration_get(
         "congestion_surcharge": [congestion_surcharge],
         "airport_fee": [airport_fee]
     }
-    print(input_dict)
 
-    input_df = pd.DataFrame.from_dict(input)
-    print(input_df)
+    input_df = pd.DataFrame.from_dict(input_dict, orient='columns')
     model = pickle.load(open(path_model, 'rb'))
     dv = pickle.load(open("yellowcab/model/forest_dv.pkl", 'rb'))
     transformed_input = transform_input_get(input_df, dv)
     prediction = model.predict(transformed_input)
-    return prediction
+    return float(prediction[0])
 
  

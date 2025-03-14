@@ -11,11 +11,7 @@ def read_root():
 
 @app.post("/predict_post/", response_model=float)  
 def predict_post(input: List[ModelPredictIn]): # random forest regressor model
-    return(float(predict_duration_post(input)[0]))
-
-# @app.get("/predict/")
-# def predict(name:str):
-#     return {"Hello": name}
+    return predict_duration_post(input)
 
 @app.get("/predict_get/")
 def predict_get(VendorID: int, 
@@ -52,41 +48,5 @@ def predict_get(VendorID: int,
         improvement_surcharge,
         total_amount,
         congestion_surcharge,
-        airport_fee
-    )   
-    # duration = predict_duration_get(VendorID, 
-    #         passenger_count, 
-    #         trip_distance, 
-    #         RatecodeID, 
-    #         store_and_fwd_flag, 
-    #         PULocationID, 
-    #         DOLocationID,
-    #         payment_type,
-    #         fare_amount,
-    #         extra,
-    #         mta_tax,
-    #         tip_amount,
-    #         tolls_amount,
-    #         improvement_surcharge,
-    #         total_amount,
-    #         congestion_surcharge,
-    #         airport_fee)
-    # input_df["VendorID"] = VendorID
-    # input_df["passenger_count"] = passenger_count
-    # input_df["trip_distance"] = trip_distance
-    # input_df["RatecodeID"] = RatecodeID
-    # input_df["store_and_fwd_flag"] = store_and_fwd_flag
-    # input_df["PULocationID"] = PULocationID
-    # input_df["DOLocationID"] = DOLocationID
-    # input_df["payment_type"] = payment_type
-    # input_df["fare_amount"] = fare_amount
-    # input_df["extra"] = extra
-    # input_df["mta_tax"] = mta_tax
-    # input_df["tip_amount"] = tip_amount
-    # input_df["tolls_amount"] = tolls_amount
-    # input_df["improvement_surcharge"] = improvement_surcharge
-    # input_df["total_amount"] = total_amount
-    # input_df["congestion_surcharge"] = congestion_surcharge
-    # input_df["airport_fee"] = airport_fee
-    return duration
+        airport_fee)
 

@@ -56,12 +56,18 @@ def transform_input_post(inputs: ModelPredictIn, dv: DictVectorizer) -> float:
     # Transform input into a format that can be fed into the model
     inputs = {k: [v] for k, v in inputs[0].__dict__.items()}
     df = pd.DataFrame(inputs, index=[0])
+    print("1")
     df = encode_categorical_cols(df)
+    print("2")
     x, _, dv = extract_x_y(df, dv=dv, with_target=False)
+    print(x)
     return x
 
 def transform_input_get(input_df, dv:DictVectorizer) -> float:
     # Transform input into a format that can be fed into the model
+    print("3")
     df = encode_categorical_cols(input_df)
+    print("4")
     x, _, dv = extract_x_y(df, dv=dv, with_target=False)
+    print(x)
     return x
