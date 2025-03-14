@@ -3,29 +3,23 @@ from typing import List
 import pandas as pd
 
 class ModelPredictIn(BaseModel):
+    passenger_count: int
     trip_distance: float
-    total_amount: float
+    RatecodeID: int
+    store_and_fwd_flag: str
+    PULocationID: int
+    DOLocation:int
     payment_type: int
-    trip_type: int                  
-    rate_code: int
+    fare_amount: float
     extra: float
-    tolls_amount: float
     mta_tax: float
+    tip_amount: float
+    tolls_amount: float
     improvement_surcharge: float
+    total_amount: float
     congestion_surcharge: float
-    pickup_month: int
-    pickup_day: int
-    pickup_weekday: int
-    pickup_hour: int
-    pickup_minute: int
-    dropoff_month: int
-    dropoff_day: int
-    dropoff_weekday: int
-    dropoff_hour: int
-    dropoff_minute: int
+    airport_fee: float
 
-def filter_outliers(df: pd.DataFrame, min_duration: int = 1, max_duration: int = 60) -> pd.DataFrame:
-    return df[df["duration"].between(min_duration, max_duration)]
 
 def encode_categorical_cols(df: pd.DataFrame, categorical_cols: List[str] = None) -> pd.DataFrame:
     if categorical_cols is None:
@@ -37,7 +31,6 @@ def encode_categorical_cols(df: pd.DataFrame, categorical_cols: List[str] = None
 def transform_input(inputs: ModelPredictIn) -> pd.DataFrame:
     # Transform input into a format that can be fed into the model
     df = pd.DataFrame(inputs, index=[0])
-    df = filter_outliers(df)
     df = encode_categorical_cols(df)
     return df
 
