@@ -1,14 +1,16 @@
-import fastapi
-import uvicorn
-
 from fastapi import FastAPI
-from uvicorn import Config, Server
-#from yellowcab.predict import predict
+from typing import List   
+from yellowcab.predict import predict_duration, ModelPredictIn
 
 app = FastAPI()
 
-@app.get("/")
+@app.get("/home")
 def read_root():
     return {"Hello": "World"}
 
-#@app.get("/predict")    
+@app.post("/predict", response_model=List[ModelPredictIn])  
+def predict(input: List[ModelPredictIn]):
+    return predict_duration(input)  
+
+
+
