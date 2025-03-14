@@ -1,5 +1,6 @@
 mlruns/
 mlartifacts/
+move_model.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
