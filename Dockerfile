@@ -13,6 +13,7 @@ COPY setup.py /app/setup.py
 
 RUN pip install .
 
-EXPOSE 8002
+EXPOSE $PORT
 
-CMD [ "uvicorn", "api:app", "--host", "0.0.0.0",  "--port", "8002",  "--reload"]
+#docker run -e PORT=8002 -p 8002:8002 yellowcab:latest   
+CMD uvicorn api:app --host 0.0.0.0 --port $PORT 
