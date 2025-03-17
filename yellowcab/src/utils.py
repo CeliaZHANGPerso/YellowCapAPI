@@ -1,8 +1,11 @@
 from pydantic import BaseModel
 from typing import List
 import pandas as pd
+from sklearn.feature_extraction import DictVectorizer
+from datetime import datetime
 
 class ModelPredictIn(BaseModel):
+    VendorID: int
     passenger_count: int
     trip_distance: float
     RatecodeID: int
@@ -28,32 +31,43 @@ def encode_categorical_cols(df: pd.DataFrame, categorical_cols: List[str] = None
     df[categorical_cols] = df[categorical_cols].astype("str")
     return df
 
-def transform_input(inputs: ModelPredictIn) -> pd.DataFrame:
+def extract_x_y(
+    df: pd.DataFrame,
+    categorical_cols: List[str] = None,
+    dv: DictVectorizer = None,
+    with_target: bool = True,
+) -> dict:
+
+    if categorical_cols is None:
+        categorical_cols = ["PULocationID", "DOLocationID", "passenger_count"]
+    dicts = df[categorical_cols].to_dict(orient="records")
+
+    y = None
+    if with_target:
+        if dv is None:
+            dv = DictVectorizer()
+            dv.fit(dicts)
+        y = df["duration"].values
+
+    x = dv.transform(dicts)
+    return x, y, dv
+
+def transform_input_post(inputs: ModelPredictIn, dv: DictVectorizer) -> float:
     # Transform input into a format that can be fed into the model
-    #df = pd.DataFrame(dict(inputs))
-    df = pd.DataFrame(inputs.model_dump())
+    inputs = {k: [v] for k, v in inputs[0].__dict__.items()}
+    df = pd.DataFrame(inputs, index=[0])
+    print("1")
     df = encode_categorical_cols(df)
-    return df
+    print("2")
+    x, _, dv = extract_x_y(df, dv=dv, with_target=False)
+    print(x)
+    return x
 
-
-inputs = ModelPredictIn(
-    passenger_count=1,
-    trip_distance=2.1,
-    RatecodeID=1,
-    store_and_fwd_flag="N",
-    PULocationID=142,
-    DOLocationID=43,
-    payment_type=2,
-    fare_amount=10.0,
-    extra=3,
-    mta_tax=0.5,
-    tip_amount=0.0,
-    tolls_amount=0.0,
-    improvement_surcharge=0.3,
-    total_amount=11.3,
-    congestion_surcharge=2.5,
-    airport_fee=0.0
-)
-
-print()
-print(transform_input(inputs))
+def transform_input_get(input_df, dv:DictVectorizer) -> float:
+    # Transform input into a format that can be fed into the model
+    print("3")
+    df = encode_categorical_cols(input_df)
+    print("4")
+    x, _, dv = extract_x_y(df, dv=dv, with_target=False)
+    print(x)
+    return x
