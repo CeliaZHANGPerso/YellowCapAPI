@@ -1,27 +1,13 @@
 # YellowCapAPI
 
-test input value
-for post method
-[
-  {
-    "VendorID": 1,
-    "passenger_count": 1,
-    "trip_distance": 2.1,
-    "RatecodeID": 1,
-    "store_and_fwd_flag": "N",
-    "PULocationID": 142,
-    "DOLocationID": 43,
-    "payment_type": 2,
-    "fare_amount": 8.0,
-    "extra": 3.0,
-    "mta_tax": 0.5,
-    "tip_amount": 0,
-    "tolls_amount": 0,
-    "improvement_surcharge": 0.3,
-    "total_amount": 11.8,
-    "congestion_surcharge": 2.5,
-    "airport_fee": 0
-  }
-]
-
-for get method, the same value but 1 value for the corresponding blank
+To deploy a docker container on GCP (Makefile is so important):
+1. local test on your computer or your VM that it works
+2. create a artifact registry repository
+3. follow the make file (all variables are saved in .env, using direnv)
+  1) make gcp_build
+  2) make run_local_gcp (test if it works well)
+  3) if your account is not authentified, do:
+    gcloud auth configure-docker $LOCATION-docker.pkg.dev
+  4) make docker_push
+  5) make deploy_service
+Then you can see your image in Artifact Registry and your api in Cloud Run.

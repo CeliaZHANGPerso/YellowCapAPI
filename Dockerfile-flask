@@ -12,4 +12,4 @@ COPY main_flask.py /app/main_flask.py
 EXPOSE $PORT
 
 #docker run -e PORT=8002 -p 8002:8002 yellowcab:latest   
-CMD python main_flask.py --host 0.0.0.0 --port $PORT
+CMD python main_flask.py 
