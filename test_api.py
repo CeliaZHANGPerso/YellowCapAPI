@@ -1,10 +1,10 @@
-# YellowCapAPI
+import requests
+url = "http://127.0.0.1:8000/predict_get/" #BACKEND_URL 
 
-test input value
-for post method
-[
-  {
+data = {
     "VendorID": 1,
+    "tpep_pickup_datetime": "2025-03-14T17:44:03.462Z",
+    "tpep_dropoff_datetime": "2025-03-14T17:50:03.462Z",
     "passenger_count": 1,
     "trip_distance": 2.1,
     "RatecodeID": 1,
@@ -22,6 +22,10 @@ for post method
     "congestion_surcharge": 2.5,
     "airport_fee": 0
   }
-]
 
-for get method, the same value but 1 value for the corresponding blank
+
+
+
+response = requests.get(url, params = data) 
+result = response.json()
+print(result)

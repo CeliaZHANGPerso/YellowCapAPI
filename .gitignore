@@ -1,3 +1,8 @@
+.env
+.envrc 
+
+test-api.py 
+
 mlruns/
 mlartifacts/
 move_model.py

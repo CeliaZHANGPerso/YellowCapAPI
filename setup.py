@@ -12,5 +12,6 @@ setuptools.setup(
         "fastapi",
         "uvicorn",
         "pydantic",
+        "streamlit"
     ]
 )
