@@ -13,7 +13,8 @@ COPY setup.py /yellowcab_app/
 
 RUN pip install -r requirements.txt
 
-EXPOSE 5042
+EXPOSE $PORT
 
-# Run the application
-CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "5042", "--reload"]
+# Command to run on container start
+#docker run -e PORT=8002 -p 8002:8002 yellowcab:latest   
+CMD uvicorn api:app --host 0.0.0.0 --port $PORT 
