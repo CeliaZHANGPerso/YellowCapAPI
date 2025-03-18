@@ -3,6 +3,10 @@ import pandas as pd
 import numpy as np
 import requests
 
+st.title("Yellow Cab")
+st.header("Estimate the duration")
+st.markdown("Enter your variables to get the prediction")
+
 st.number_input("VendorID", value=1)
 st.number_input("passenger_count", value=1)
 st.number_input("trip_distance", value=2.1)
