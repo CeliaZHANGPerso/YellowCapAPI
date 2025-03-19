@@ -1,0 +1,26 @@
+services:
+  fastapi:
+    build:
+      context: api
+      dockerfile: Dockerfile-api
+    networks:
+      - yellowcab
+    command: ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8002"]
+  
+  flask_front:
+    build:
+      context: flask
+      dockerfile: Dockerfile-flask
+    environment:
+      - PORT=8003
+    ports:
+      - "8003:8003"
+    networks:
+      - yellowcab
+    command: ["python", "main_flask.py"]
+    depends_on:
+      - fastapi
+
+networks:
+  yellowcab:
+    driver: bridge

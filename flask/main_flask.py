@@ -1,5 +1,6 @@
 from flask import request, Flask, render_template
 import requests
+import logging
 import os
 
 app = Flask(__name__)
@@ -48,7 +49,7 @@ def predict():
             "congestion_surcharge": [congestion_surcharge],
             "airport_fee": [airport_fee]
         }
-        BASE_URL =  'https://yellowcapapi-609285842864.europe-west9.run.app'
+        BASE_URL =  'http://fastapi:8002'
         prediction = requests.get(f'{BASE_URL}/predict_get/', params=input_dict)
         print(prediction.json())
         return render_template('predict.html', prediction=prediction.json())
@@ -56,6 +57,8 @@ def predict():
 
 
 if __name__ == "__main__":
+    logger = logging.getLogger('werkzeug')
+    logger.info(f'Starting the Flask API on PORT {os.environ.get("PORT")}')
     app.run(
         host='0.0.0.0',
         port=os.environ.get('PORT')

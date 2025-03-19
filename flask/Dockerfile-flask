@@ -3,13 +3,12 @@ FROM python:3.10-slim
 WORKDIR /app
 
 RUN pip install --upgrade pip
-RUN pip install flask
-RUN pip install requests
+COPY requirements-flask.txt /app/requirements-flask.txt
+RUN pip install -r /app/requirements-flask.txt
 
 COPY templates/. /app/templates
 COPY main_flask.py /app/main_flask.py
 
-EXPOSE $PORT
 
 #docker run -e PORT=8002 -p 8002:8002 yellowcab:latest   
 CMD python main_flask.py 
