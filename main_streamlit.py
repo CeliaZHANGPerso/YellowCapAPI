@@ -1,6 +1,5 @@
 import streamlit as st 
 import requests
-import pickle
 import os
 import loguru
 
